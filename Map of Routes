@@ -1077,7 +1077,7 @@ body {
           <span class="priority-tag priority-urgent">⚡ URGENTE — HOY</span>
           <div class="city-meta">
             <div class="meta-item"><div class="meta-label">Unidades</div><div class="meta-value" style="color:var(--gold)">420</div></div>
-            <div class="meta-item"><div class="meta-label">Ventana</div><div class="meta-value" style="color:var(--red)">≤ 4.5h</div></div>
+            <div class="meta-item"><div class="meta-label">Ventana</div><div class="meta-value" style="color:var(--red)">≤ 5h</div></div>
             <div class="meta-item"><div class="meta-label">Penaliz.</div><div class="meta-value" style="color:var(--red)">-120 pts</div></div>
             <div class="meta-item"><div class="meta-label">Dist.GYE</div><div class="meta-value">275 km</div></div>
           </div>
@@ -1341,7 +1341,7 @@ body {
           <span class="metric-pts" id="m-uio-pts">0 pts</span>
         </div>
         <div class="metric-bar-track"><div class="metric-bar-fill" id="m-uio-bar" style="width:0%"></div></div>
-        <div class="metric-detail" id="m-uio-detail">Ventana: ≤ 4.5h</div>
+        <div class="metric-detail" id="m-uio-detail">Ventana: ≤ 5h</div>
       </div>
 
       <div class="metric-block">
@@ -1391,7 +1391,7 @@ body {
       <div style="margin-top:12px;padding:12px;background:var(--bg3);border-radius:6px;border:1px solid rgba(0,120,215,0.12)">
         <div class="panel-title" style="margin-bottom:8px">📋 Requisitos</div>
         <div style="font-family:var(--font-data);font-size:10px;line-height:2;color:rgba(240,244,255,0.5)">
-          <div>🔴 UIO · &lt;4.5h · Penaliz. -120</div>
+          <div>🔴 UIO · &lt;5h · Penaliz. -120</div>
           <div>🔵 MCH · &lt;8h · 580 unid</div>
           <div>❄ CUE · &lt;5h · Frío+4x4</div>
           <div>🟢 MEC · &lt;7h · Normal</div>
@@ -1853,12 +1853,12 @@ function computeScore() {
   }
   scores.cueVehicle = cueScore;
 
-  // 4. UIO on time ≤4.5h (150 pts, -120 if late)
+  // 4. UIO on time ≤5h (150 pts, -120 if late)
   let uioScore = 0;
   if (R.includes('UIO')) {
     const timeH = calcTimeToUIO();
     if (timeH !== null) {
-      if (timeH <= 4.5) uioScore = 150;
+      if (timeH <= 5) uioScore = 150;
       else uioScore = -120;
     }
   }
@@ -1946,7 +1946,7 @@ function updateMetrics() {
 
   // UIO time
   const uioH = calcTimeToUIO();
-  const uioDetail = uioH !== null ? `Llegada en ${uioH.toFixed(1)}h (ventana ≤4.5h)` : R.includes('UIO') ? 'Asigna vehículo' : 'Quito no en ruta';
+  const uioDetail = uioH !== null ? `Llegada en ${uioH.toFixed(1)}h (ventana ≤5h)` : R.includes('UIO') ? 'Asigna vehículo' : 'Quito no en ruta';
   const uioBar = document.getElementById('m-uio-bar');
   const uioPts = document.getElementById('m-uio-pts');
   uioBar.style.width = `${scores.uioTime > 0 ? 100 : (scores.uioTime < 0 ? 100 : 0)}%`;
@@ -2100,7 +2100,7 @@ function showResultModal() {
   else if (cueVeh) evalText += '✅ <strong>Cuenca correcta:</strong> Vehículo Refrigerado 4x4 asignado y dentro de ventana de cadena de frío. ';
 
   if (!R.includes('UIO')) evalText += '⚠️ <strong>Quito omitido:</strong> Entrega urgente no atendida — penalización máxima aplicada. ';
-  else if (uioTime > 4.5) evalText += `❌ <strong>Quito tarde:</strong> Llegada estimada ${uioTime?.toFixed(1)}h supera ventana de 4.5h. -120 pts aplicados. `;
+  else if (uioTime > 5) evalText += `❌ <strong>Quito tarde:</strong> Llegada estimada ${uioTime?.toFixed(1)}h supera ventana de 5h. -120 pts aplicados. `;
   else evalText += `✅ <strong>Quito a tiempo:</strong> Llegada en ${uioTime?.toFixed(1)}h dentro de ventana crítica. `;
 
   if (scores.total >= 750) {
